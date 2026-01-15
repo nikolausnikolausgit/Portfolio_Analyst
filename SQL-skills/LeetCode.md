@@ -647,7 +647,7 @@ ORDER BY 2 DESC
 LIMIT 1
 ```
 ## 42 (585. Investments in 2016)
-``` 
+```sql
 SELECT
     ROUND(SUM(tiv_2016), 2) AS tiv_2016
 FROM
