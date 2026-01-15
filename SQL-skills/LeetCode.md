@@ -1,4 +1,4 @@
-## 1. (1757. Recyclable and Low Fat Products)
+## 1 (1757. Recyclable and Low Fat Products)
 ```sql
 SELECT
     product_id
@@ -6,7 +6,7 @@ FROM
     Products
 WHERE low_fats = 'Y' AND recyclable = 'Y'
 ```
-## 2. (584. Find Customer Referee)
+## 2 (584. Find Customer Referee)
 ```sql
 SELECT
     name
@@ -14,8 +14,8 @@ FROM
     Customer
 WHERE referee_id != 2 OR referee_id IS NULL
 ```
-Задание №3 (595. Big Countries)
-
+## 3 (595. Big Countries)
+```sql
 SELECT
     name,
     population,
@@ -23,51 +23,50 @@ SELECT
 FROM
     World
 WHERE `area` >= 3000000 OR population >= 25000000
-
-Задание №4 (1148. Article Views I)
-
+```
+## 4 (1148. Article Views I)
+```sql
 SELECT DISTINCT
     author_id AS id
 FROM
     Views
 WHERE author_id = viewer_id
 ORDER BY author_id
-
-
-Задание №5 (1683. Invalid Tweets)
-
+```
+## 5 (1683. Invalid Tweets)
+```sql
 SELECT
     tweet_id
 FROM
     Tweets
 WHERE LENGTH(content) > 15
-
-Задание №6 (1378. Replace Employee ID With The Unique Identifier)
-
+```
+## 6 (1378. Replace Employee ID With The Unique Identifier)
+```sql
 SELECT
     unique_id,
     name
 FROM Employees LEFT JOIN EmployeeUNI USING(id)
-
-Задание №7 (1068. Product Sales Analysis I)
-
+```
+## 7 (1068. Product Sales Analysis I)
+```sql
 SELECT
     product_name,
     year,
     price
 FROM Sales INNER JOIN Product USING(product_id)
-
-Задание №8 (1581. Customer Who Visited but Did Not Make Any Transactions)
-
+```
+## 8 (1581. Customer Who Visited but Did Not Make Any Transactions)
+```sql
 SELECT
     customer_id,
     COUNT(*) AS count_no_trans
 FROM Visits LEFT JOIN Transactions USING (visit_id)
 WHERE transaction_id IS NULL
 GROUP BY customer_id
-
-Задание №9 (197. Rising Temperature)
-
+```
+## 9 (197. Rising Temperature)
+```sql
 SELECT 
     w2.id
 FROM 
@@ -75,9 +74,9 @@ FROM
 WHERE
     w1.temperature < w2.temperature
 and ADDDATE(W1.RecordDate, INTERVAL 1 DAY) = W2.RecordDate
-
-Задание №10 (1661. Average Time of Process per Machine)
-
+```
+## 10 (1661. Average Time of Process per Machine)
+```sql
 WITH CTE AS (SELECT
     machine_id,
     activity_type,
@@ -92,18 +91,18 @@ SELECT
     ROUND((MAX(time_startend) - MIN(time_startend)) / counter, 3) AS processing_time
 FROM CTE
 GROUP BY machine_id
-
-Задание №11 (577. Employee Bonus)
-
+```
+## 11 (577. Employee Bonus)
+```sql
 SELECT
     name,
     bonus
 FROM
     Employee LEFT JOIN Bonus USING (empId)
 WHERE bonus < 1000 OR bonus IS NULL
-
-Задание №12 (1280. Students and Examinations)
-
+```
+## 12 (1280. Students and Examinations)
+```sql
 WITH CTE_1 AS (SELECT
     student_id,
     student_name,
@@ -139,9 +138,9 @@ SELECT
     IFNULL(attended_exams, 0) AS attended_exams
 FROM CTE_3
 ORDER BY 1, 3
-
-Задание №13 (570. Managers with at Least 5 Direct Reports)
-
+```
+## 13 (570. Managers with at Least 5 Direct Reports)
+```sql
 WITH CTE AS (SELECT
     managerId AS id
 FROM
@@ -153,9 +152,9 @@ SELECT
     name
 FROM
     CTE INNER JOIN Employee USING(id)
-
-Задание №14 (1934. Confirmation Rate)
-
+```
+## 14 (1934. Confirmation Rate)
+```sql
 WITH CTE_confirmed AS (SELECT
     user_id,
     COUNT(*) AS confirmed
@@ -192,9 +191,9 @@ SELECT
     IFNULL(ROUND(confirmed/actions, 2), 0) AS confirmation_rate
 FROM
     all_actions INNER JOIN all_confirmed USING (user_id)
-
-Задание №15 (620. Not Boring Movies)
-
+```
+## 15 (620. Not Boring Movies)
+```sql
 SELECT
     id,
     movie,
@@ -203,9 +202,9 @@ SELECT
 FROM Cinema
 WHERE description != 'boring' AND id % 2 != 0
 ORDER BY rating DESC
-
-Задание №16 (1251. Average Selling Price)
-
+```
+## 16 (1251. Average Selling Price)
+```sql
 SELECT
     Prices.product_id,
     IFNULL(ROUND(SUM(units*price) / SUM(units), 2), 0) AS average_price
@@ -216,36 +215,36 @@ FROM
     AND UnitsSold.product_id = Prices.product_id
 GROUP BY product_id
 ORDER BY Prices.product_id
-
-Задание №17 (1075. Project Employees I)
-
+```
+## 17 (1075. Project Employees I)
+```sql
 SELECT
     project_id,
     ROUND(SUM(experience_years) / COUNT(*), 2) AS average_years
 FROM
     Project INNER JOIN Employee USING (employee_id)
 GROUP BY project_id
-
-Задание №18 (1633. Percentage of Users Attended a Contest)
-
+```
+## 18 (1633. Percentage of Users Attended a Contest)
+```sql
 SELECT
     contest_id,
     ROUND(100 * COUNT(*) / (SELECT COUNT(user_id) FROM Users), 2) AS percentage
 FROM Register
 GROUP BY contest_id
 ORDER BY 2 DESC, contest_id
-
-Задание №19 (1211. Queries Quality and Percentage)
-
+```
+## 19 (1211. Queries Quality and Percentage)
+```sql
 SELECT
     query_name,
     ROUND(AVG(rating/position), 2) AS quality,
     ROUND(100*(SUM(CASE WHEN rating < 3 THEN 1 ELSE 0 END) / COUNT(*)), 2) AS poor_query_percentage
 FROM Queries
 GROUP BY query_name
-
-Задание №20 (1193. Monthly Transactions I)
-
+```
+## 20 (1193. Monthly Transactions I)
+```sql
 SELECT
     DATE_FORMAT(trans_date, '%Y-%m') AS month,
     country,
@@ -255,9 +254,9 @@ SELECT
     SUM(CASE WHEN state = 'approved' THEN amount ELSE 0 END) AS approved_total_amount
 FROM Transactions
 GROUP BY DATE_FORMAT(trans_date, '%Y-%m'), country
-
-Задание №21 (1174. Immediate Food Delivery II)
-
+```
+## 21 (1174. Immediate Food Delivery II)
+```sql
 SELECT
     ROUND(AVG(100*(order_date = customer_pref_delivery_date)), 2) as immediate_percentage
 FROM
@@ -271,9 +270,9 @@ WHERE
         FROM Delivery
         GROUP BY customer_id
     )
-
-Задание №22 (550. Game Play Analysis IV)
-
+```
+## 22 (550. Game Play Analysis IV)
+```sql
 WITH CTE AS (SELECT
     player_id
 FROM
@@ -297,9 +296,9 @@ FROM
 SELECT
     ROUND(SUM(p_cte) / COUNT(p_cte), 2) AS fraction
 FROM CTE2
-
-Задание №23 (2356. Number of Unique Subjects Taught by Each Teacher)
-
+```
+## 23 (2356. Number of Unique Subjects Taught by Each Teacher)
+```sql
 SELECT
     teacher_id,
     COUNT(DISTINCT subject_id) AS cnt
@@ -307,9 +306,9 @@ FROM
     Teacher
 GROUP BY
     teacher_id
-
-Задание №24 (1141. User Activity for the Past 30 Days I)
-
+```
+## 24 (1141. User Activity for the Past 30 Days I)
+```sql
 SELECT
     activity_date AS day,
     COUNT(DISTINCT user_id) AS active_users
@@ -318,9 +317,9 @@ FROM
 WHERE activity_date > DATE_SUB('2019-07-27', INTERVAL 30 DAY) AND activity_date <= DATE('2019-07-27')
 GROUP BY
     activity_date
-
-Задание №25 (1070. Product Sales Analysis III)
-
+```
+## 25 (1070. Product Sales Analysis III)
+```sql
 SELECT
     product_id,
     year AS first_year,
@@ -335,9 +334,9 @@ WHERE (product_id, year) IN
     FROM
         Sales
     GROUP BY product_id)
-
-Задание №26 (596. Classes With at Least 5 Students)
-
+```
+## 26 (596. Classes With at Least 5 Students)
+```sql
 SELECT
     DISTINCT class
 FROM
@@ -350,9 +349,9 @@ WHERE
         Courses
     GROUP BY class
     HAVING COUNT(DISTINCT student) >= 5)
-
-Задание №27 (1729. Find Followers Count)
-
+```
+## 27 (1729. Find Followers Count)
+```sql
 SELECT
     user_id,
     COUNT(*) AS followers_count
@@ -361,9 +360,9 @@ FROM
 GROUP BY
     user_id
 ORDER BY user_id
-
-Задание №28 (619. Biggest Single Number)
-
+```
+## 28 (619. Biggest Single Number)
+```sql
 SELECT
     MAX(num) AS num
 FROM
@@ -378,18 +377,18 @@ WHERE
         num
     HAVING
         COUNT(*) = 1)
-
-Задание №29 (1045. Customers Who Bought All Products)
-
+```
+## 29 (1045. Customers Who Bought All Products)
+```sql
 SELECT
     customer_id
 FROM
     Customer
 GROUP BY customer_id
 HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(product_key) FROM Product)
-
-Задание №30 (1731. The Number of Employees Which Report to Each Employee)
-
+```
+## 30 (1731. The Number of Employees Which Report to Each Employee)
+```sql
 WITH CTE AS (SELECT
     reports_to AS employee_id,
     COUNT(*) AS reports_count,
@@ -405,9 +404,9 @@ SELECT
     average_age
 FROM CTE INNER JOIN Employees USING (employee_id)
 ORDER BY employee_id
-
-Задание №31 (1789. Primary Department for Each Employee)
-
+```
+## 31 (1789. Primary Department for Each Employee)
+```sql
 SELECT
     employee_id,
     department_id
@@ -425,17 +424,17 @@ FROM
     Employee
 GROUP BY employee_id
 HAVING COUNT(*) = 1
-
-Задание №32 (610. Triangle Judgement)
-
+```
+## 32 (610. Triangle Judgement)
+```sql
 SELECT
     *,
     IF(x+y>z AND x+z>y AND y+z>x, 'Yes', 'No') AS triangle
 FROM
     Triangle
-
-Задание №33 (180. Consecutive Numbers)
-
+```
+## 33 (180. Consecutive Numbers)
+```sql
 WITH CTE AS (SELECT
     id,
     num AS num_cte
@@ -455,9 +454,9 @@ FROM
     LEFT JOIN CTE ON Logs.id = CTE.id + 1
     LEFT JOIN CTE_CTE ON Logs.id = CTE_CTE.id + 2
 WHERE num = num_cte AND num_cte = num_cte_cte
-
-Задание №34 (1164. Product Price at a Given Date)
-
+```
+## 34 (1164. Product Price at a Given Date)
+```sql
 WITH CTE AS (
     SELECT DISTINCT
         product_id
@@ -483,9 +482,9 @@ SELECT
     IFNULL(new_price, 10) AS price
 FROM 
     ANSWER RIGHT JOIN CTE USING (product_id)
-
-Задание №35 (1204. Last Person to Fit in the Bus)
-
+```
+## 35 (1204. Last Person to Fit in the Bus)
+```sql
 WITH CTE AS (SELECT
     turn,
     person_name,
@@ -502,9 +501,9 @@ FROM
 WHERE cum_weight <= 1000
 ORDER BY (cum_weight) DESC
 LIMIT 1
-
-Задание №36 (1907. Count Salary Categories)
-
+```
+## 36 (1907. Count Salary Categories)
+```sql
 SELECT
     'Low Salary' AS category,
     COUNT(*) AS accounts_count
@@ -529,9 +528,9 @@ SELECT
 FROM
     Accounts
 WHERE income > 50000
-
-Задание №37 (1978. Employees Whose Manager Left the Company)
-
+```
+## 37 (1978. Employees Whose Manager Left the Company)
+```sql
 SELECT
     employee_id
 FROM
@@ -540,9 +539,9 @@ WHERE
     salary < 30000 AND manager_id IS NOT NULL AND manager_id NOT IN (SELECT DISTINCT employee_id FROM Employees)
 ORDER BY
     employee_id
-
-Задание №38 (626. Exchange Seats)
-
+```
+## 38 (626. Exchange Seats)
+```sql
 WITH CTE AS (SELECT
     id - 1 AS id,
     student
@@ -567,9 +566,9 @@ SELECT
 FROM
     CTE
 ORDER BY id
-
-Задание №39 (1341. Movie Rating)
-
+```
+## 39 (1341. Movie Rating)
+```sql
 (SELECT
     name AS results
 FROM
@@ -588,9 +587,9 @@ WHERE MONTH(created_at) = 2 AND YEAR(created_at) = 2020
 GROUP BY movie_id
 ORDER BY AVG(rating) DESC, title
 LIMIT 1)
-
-Задание №40 (1321. Restaurant Growth)
-
+```
+## 40 (1321. Restaurant Growth)
+```sql
 WITH CTE AS (SELECT
     visited_on,
     SUM(amount) AS amount
@@ -606,9 +605,9 @@ FROM CTE
 WINDOW w AS (ORDER BY visited_on
                       RANGE BETWEEN INTERVAL 6 DAY PRECEDING AND CURRENT ROW)
 LIMIT 100 OFFSET 6
-
-Задание №41 (602. Friend Requests II: Who Has the Most Friends)
-
+```
+## 41 (602. Friend Requests II: Who Has the Most Friends)
+```sql
 WITH Clients AS (SELECT DISTINCT
     requester_id AS id,
     0 AS num
@@ -646,9 +645,9 @@ FROM
     LEFT JOIN Acc_Clients USING (id)
 ORDER BY 2 DESC
 LIMIT 1
-
-Задание №42 (585. Investments in 2016)
-
+```
+## 42 (585. Investments in 2016)
+``` 
 SELECT
     ROUND(SUM(tiv_2016), 2) AS tiv_2016
 FROM
@@ -668,9 +667,9 @@ AND (lat, lon) IN
         Insurance
     GROUP BY lat, lon
     HAVING COUNT(*) = 1)
-
-Задание №43 (185. Department Top Three Salaries)
-
+```
+## 43 (185. Department Top Three Salaries)
+```sql
 WITH CTE AS (SELECT
     Department.name AS Department,
     Employee.name AS Employee,
@@ -688,18 +687,18 @@ SELECT
 FROM
     CTE
 WHERE rating <= 3
-
-Задание №44 (1667. Fix Names in a Table)
-
+```
+## 44 (1667. Fix Names in a Table)
+```sql
 SELECT
     user_id,
     CONCAT(LEFT(UPPER(name), 1), SUBSTRING(LOWER(name), 2)) AS name
 FROM
     Users
 ORDER BY user_id
-
-Задание №45 (1527. Patients With a Condition)
-
+```
+## 45 (1527. Patients With a Condition)
+```sql
 SELECT
     patient_id,
     patient_name,
@@ -707,9 +706,9 @@ SELECT
 FROM
     Patients
 WHERE conditions LIKE 'DIAB1%' OR conditions LIKE '% DIAB1%'
-
-Задание №46 (196. Delete Duplicate Emails)
-
+```
+## 46 (196. Delete Duplicate Emails)
+```sql
 DELETE
 FROM
     Person
@@ -722,17 +721,17 @@ WHERE id NOT IN
     FROM
         Person
     GROUP BY email) as a)
-
-Задание №47 (176. Second Highest Salary)
-
+```
+## 47 (176. Second Highest Salary)
+```sql
 SELECT
     max(salary) AS SecondHighestSalary
 FROM
     Employee
 WHERE salary < (SELECT max(salary) FROM Employee)
-
-Задание №48 (1484. Group Sold Products By The Date)
-
+```
+## 48 (1484. Group Sold Products By The Date)
+```sql
 WITH CTE AS (SELECT * FROM Activities ORDER BY sell_date, product)
 
 SELECT 
@@ -742,9 +741,9 @@ SELECT
 FROM
     CTE
 GROUP BY sell_date
-
-Задание №49 (1327. List the Products Ordered in a Period)
-
+```
+## 49 (1327. List the Products Ordered in a Period)
+```sql
 SELECT
     product_name,
     SUM(unit) AS unit
@@ -753,8 +752,9 @@ FROM
 WHERE MONTH(order_date) = 2 AND YEAR(order_date) = 2020
 GROUP BY product_id
 HAVING SUM(unit) >= 100
-
-Задание №50 (1517. Find Users With Valid E-Mails)
-
+```
+## 50 (1517. Find Users With Valid E-Mails)
+```sql
 SELECT * fro Users
 WHERE regexp_like(mail, '^[A-Za-z]+[A-Za-z0-9_.-]*@leetcode[.]com$','c')
+```
