@@ -1,4 +1,4 @@
-## 1 (1757. Recyclable and Low Fat Products)
+## 1. (1757. Recyclable and Low Fat Products)
 ```sql
 SELECT
     product_id
@@ -6,7 +6,7 @@ FROM
     Products
 WHERE low_fats = 'Y' AND recyclable = 'Y'
 ```
-## 2 (584. Find Customer Referee)
+## 2. (584. Find Customer Referee)
 ```sql
 SELECT
     name
