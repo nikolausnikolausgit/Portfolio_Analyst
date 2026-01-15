@@ -136,9 +136,9 @@ SELECT DISTINCT type, Laptop.model, speed FROM
 Product INNER JOIN Laptop ON Product.model = Laptop.model
 WHERE speed < ALL (SELECT speed FROM PC)
 ```
-Задание: 18 (Serge I: 2003-02-03)
+## 18
 Найдите производителей самых дешевых цветных принтеров. Вывести: maker, price
-
+```sql
 WITH cheaps AS (
 SELECT maker, MIN(price) as price FROM Product INNER JOIN Printer
 ON Product.model = Printer.model
@@ -147,28 +147,28 @@ GROUP BY maker)
 
 SELECT maker, price FROM cheaps
 WHERE price = (SELECT MIN(price) FROM cheaps)
-
-Задание: 19 (Serge I: 2003-02-13)
+```
+## 19
 Для каждого производителя, имеющего модели в таблице Laptop, найдите средний размер экрана выпускаемых им ПК-блокнотов.
 Вывести: maker, средний размер экрана.
-
+```sql
 SELECT maker, AVG(screen) FROM 
 Product INNER JOIN Laptop ON Product.model = Laptop.model
 GROUP BY maker
-
-Задание: 21 (Serge I: 2003-02-13)
+```
+## 21
 Найдите максимальную цену ПК, выпускаемых каждым производителем, у которого есть модели в таблице PC.
 Вывести: maker, максимальная цена.
-
+```sql
 SELECT maker, MAX(price) as max_price
 FROM Product INNER JOIN PC ON Product.model = PC.model
 WHERE maker IN (SELECT DISTINCT maker FROM Product INNER JOIN PC
     ON Product.model = PC.model)
 GROUP BY maker
-
-Задание: 22 (Serge I: 2003-02-13)
+```
+## 22
 Для каждого значения скорости ПК, превышающего 600 МГц, определите среднюю цену ПК с такой же скоростью. Вывести: speed, средняя цена.
-
+```sql
 WITH averages AS (
     SELECT speed, AVG(price) as Avg_price FROM PC
     WHERE speed > 600
@@ -176,12 +176,12 @@ WITH averages AS (
 )
 
 SELECT * FROM averages
-
-Задание: 23 (Serge I: 2003-02-14)
+```
+## 23
 Найдите производителей, которые производили бы как ПК
 со скоростью не менее 750 МГц, так и ПК-блокноты со скоростью не менее 750 МГц.
 Вывести: Maker
-
+```sql
 SELECT DISTINCT maker AS Maker FROM Product
 WHERE maker IN (SELECT DISTINCT maker FROM PC INNER JOIN Product
     ON PC.model = Product.model
@@ -189,10 +189,10 @@ WHERE maker IN (SELECT DISTINCT maker FROM PC INNER JOIN Product
 AND maker IN (SELECT DISTINCT maker FROM Laptop INNER JOIN Product
     ON Laptop.model = Product.model
     WHERE speed >= 750)
-
-Задание: 24 (Serge I: 2003-02-03)
+```
+## 24
 Перечислите номера моделей любых типов, имеющих самую высокую цену по всей имеющейся в базе данных продукции.
-
+```sql
 WITH alltypes AS (
     SELECT model, price FROM PC
     UNION
@@ -202,11 +202,11 @@ WITH alltypes AS (
 )
 SELECT model FROM alltypes
 WHERE price = (SELECT max(price) FROM alltypes)
-
-Задание: 25 (Serge I: 2003-02-14)
+```
+## 25
 Найдите производителей принтеров, которые производят ПК с наименьшим объемом RAM и 
 с самым быстрым процессором среди всех ПК, имеющих наименьший объем RAM. Вывести: Maker
-
+```sql
 WITH support AS (
     SELECT DISTINCT maker, speed, ram FROM Product INNER JOIN PC
     ON Product.model = PC.model
@@ -216,10 +216,10 @@ WITH support AS (
 )
 SELECT DISTINCT maker AS Maker FROM support
 WHERE speed = (SELECT max(speed) FROM support)
-
-Задание: 26 (Serge I: 2003-02-14)
+```
+## 26
 Найдите среднюю цену ПК и ПК-блокнотов, выпущенных производителем A (латинская буква). Вывести: одна общая средняя цена.
-
+```sql
 WITH pc_laptop AS (
     SELECT price, maker, type FROM PC INNER JOIN Product 
     ON Product.model = PC.model
@@ -230,42 +230,42 @@ WITH pc_laptop AS (
     WHERE maker = 'A'
 )
 SELECT AVG(price) FROM pc_laptop
-
-Задание: 27 (Serge I: 2003-02-03)
+```
+## 27
 Найдите средний размер диска ПК каждого из тех производителей, которые выпускают и принтеры. Вывести: maker, средний размер HD.
-
+```sql
 SELECT maker, AVG(hd) as Avg_hd FROM Product INNER JOIN PC
 ON Product.model = PC.model
 WHERE maker IN (SELECT DISTINCT maker FROM Product
                 WHERE type = 'Printer')
 GROUP BY maker
-
-Задание: 28 (Serge I: 2012-05-04)
+```
+## 28
 Используя таблицу Product, определить количество производителей, выпускающих по одной модели.
-
+```sql
 WITH dist_model AS (SELECT count(model) as count, maker FROM Product
                     GROUP BY maker)
 
 SELECT count(maker) FROM dist_model
 WHERE count = 1
 GROUP BY count
-
-Задание: 31 (Serge I: 2002-10-22)
+```
+## 31
 Для классов кораблей, калибр орудий которых не менее 16 дюймов, укажите класс и страну.
-
+```sql
 SELECT class, country FROM Classes
 WHERE bore >= 16
-
-Задание: 33 (Serge I: 2002-11-02)
+```
+## 33
 Укажите корабли, потопленные в сражениях в Северной Атлантике (North Atlantic). Вывод: ship.
-
+```sql
 SELECT ship FROM Outcomes
 WHERE battle = 'North Atlantic' and result = 'sunk'
-
-Задание: 34 (Serge I: 2002-11-04)
+```
+## 34
 По Вашингтонскому международному договору от начала 1922 г. запрещалось строить линейные корабли водоизмещением более 35 тыс.тонн.
 Укажите корабли, нарушившие этот договор (учитывать только корабли c известным годом спуска на воду). Вывести названия кораблей.
-
+```sql
 WITH ships_year AS (
     SELECT name, Ships.class, launched, displacement
     FROM Ships INNER JOIN Classes ON Ships.class = Classes.class
@@ -274,17 +274,17 @@ WITH ships_year AS (
 
 SELECT DISTINCT name FROM ships_year
 WHERE displacement > 35000
-
-Задание: 35 (qwrqwr: 2012-11-23)
+```
+## 35
 В таблице Product найти модели, которые состоят только из цифр или только из латинских букв (A-Z, без учета регистра).
 Вывод: номер модели, тип модели.
-
+```sql
 SELECT model, type FROM Product
 WHERE model NOT LIKE '%[^0-9]%' OR model NOT LIKE '%[^A-Z]%'
-
-Задание: 36 (Serge I: 2003-02-17)
+```
+## 36
 Перечислите названия головных кораблей, имеющихся в базе данных (учесть корабли в Outcomes).
-
+```sql
 WITH alltypes AS (SELECT name FROM Ships
 WHERE name IN (SELECT class FROM Classes)
 UNION ALL
@@ -292,10 +292,10 @@ SELECT ship FROM Outcomes
 WHERE ship IN (SELECT class FROM CLasses))
 
 SELECT DISTINCT * FROM alltypes
-
-Задание: 37 (Serge I: 2003-02-17)
+```
+## 37
 Найдите классы, в которые входит только один корабль из базы данных (учесть также корабли в Outcomes).
-
+```sql
 SELECT  class
 FROM
 (
@@ -309,10 +309,10 @@ FROM
 ) t
 GROUP BY  class
 HAVING COUNT(class) = 1
-
-Задание: 38 (Serge I: 2003-02-19)
+```
+## 38
 Найдите страны, имевшие когда-либо классы обычных боевых кораблей ('bb') и имевшие когда-либо классы крейсеров ('bc').
-
+```sql
 WITH bb_table AS (SELECT country, count(*) as bb FROM Classes
 WHERE type = 'bb'
 GROUP BY country),
@@ -323,10 +323,10 @@ GROUP BY country)
 SELECT COALESCE(C.country, B.country) FROM bb_table B FULL OUTER JOIN bc_table C
 ON B.country = C.country
 WHERE bb IS NOT NULL and bc IS NOT NULL
-
-Задание: 39 (Serge I: 2003-02-14)
-Найдите корабли, `сохранившиеся для будущих сражений`; т.е. выведенные из строя в одной битве (damaged), они участвовали в другой, произошедшей позже.
-
+```
+## 39
+Найдите корабли, сохранившиеся для будущих сражений; т.е. выведенные из строя в одной битве (damaged), они участвовали в другой, произошедшей позже.
+```sql
 WITH maintable AS (SELECT ship, battle, result, date
 FROM Battles B INNER JOIN Outcomes O ON B.name = O.battle),
 damaged_ships AS (SELECT ship, date FROM maintable
@@ -335,11 +335,11 @@ damaged_ships AS (SELECT ship, date FROM maintable
 SELECT DISTINCT maintable.ship FROM maintable INNER JOIN damaged_ships
 ON maintable.ship = damaged_ships.ship
 WHERE maintable.date > damaged_ships.date
-
-Задание: 40 (Serge I: 2012-04-20)
+```
+## 40
 Найти производителей, которые выпускают более одной модели, при этом все выпускаемые производителем модели являются продуктами одного типа.
 Вывести: maker, type
-
+```sql
 WITH maker_type AS (SELECT DISTINCT maker, type FROM Product),
      count_types AS (SELECT maker, count(*) as counter 
                      FROM maker_type 
@@ -350,13 +350,13 @@ ON count_types.maker = maker_type.maker
 WHERE counter = 1 AND count_types.maker IN (SELECT maker FROM Product
                                 GROUP BY maker
                                 HAVING count(*) > 1)
-
-Задание: 41 (Serge I: 2019-05-31)
+```
+## 41
 Для каждого производителя, у которого присутствуют модели хотя бы в одной из таблиц PC, Laptop или Printer,
 определить максимальную цену на его продукцию.
 Вывод: имя производителя, если среди цен на продукцию данного производителя присутствует NULL, то выводить для этого производителя NULL,
 иначе максимальную цену.
-
+```sql
 SELECT maker, CASE WHEN SUM(CASE WHEN price IS NULL THEN 1 ELSE 0 END) > 0
                    THEN null
                    ELSE MAX(price)
@@ -378,23 +378,23 @@ FROM (SELECT maker, price
       WHERE product.model IN (SELECT model FROM pc)                                 
     ) X
 GROUP BY maker
-
-Задание: 42 (Serge I: 2002-11-05)
+```
+## 42
 Найдите названия кораблей, потопленных в сражениях, и название сражения, в котором они были потоплены.
-
+```sql
 SELECT ship, battle FROM Outcomes
 WHERE result = 'sunk'
-
-Задание: 43 (qwrqwr: 2011-10-28)
+```
+## 43
 Укажите сражения, которые произошли в годы, не совпадающие ни с одним из годов спуска кораблей на воду.
-
+```sql
 SELECT name FROM Battles
 WHERE Year(date) NOT IN (SELECT DISTINCT launched FROM Ships
                          WHERE launched IS NOT NULL)
-
-Задание: 44 (Serge I: 2002-12-04)
+```
+## 44
 Найдите названия всех кораблей в базе данных, начинающихся с буквы R.
-
+```sql
 WITH alltypes AS (SELECT ship as name FROM Outcomes
 WHERE ship LIKE 'R%'
 UNION ALL
@@ -402,38 +402,38 @@ SELECT name FROM Ships
 WHERE name LIKE 'R%')
 
 SELECT DISTINCT name FROM alltypes
-
-Задание: 45 (Serge I: 2002-12-04)
+```
+## 45
 Найдите названия всех кораблей в базе данных, состоящие из трех и более слов (например, King George V).
 Считать, что слова в названиях разделяются единичными пробелами, и нет концевых пробелов.
-
+```sql
 SELECT name FROM Ships
 WHERE name LIKE '% % %'
 UNION
 SELECT ship FROM Outcomes
 WHERE ship LIKE '% % %'
-
-Задание: 46 (Serge I: 2003-02-14)
+```
+## 46
 Для каждого корабля, участвовавшего в сражении при Гвадалканале (Guadalcanal), вывести название, водоизмещение и число орудий.
-
+```sql
 SELECT DISTINCT ship, displacement, numGuns FROM Classes
 INNER JOIN Ships ON Classes.class = Ships.class
 RIGHT JOIN Outcomes ON Outcomes.ship = Classes.class 
 OR Outcomes.ship = Ships.name
 WHERE battle = 'Guadalcanal'
-
-Задание: 48 (Serge I: 2003-02-16)
+```
+## 48
 Найдите классы кораблей, в которых хотя бы один корабль был потоплен в сражении.
-
+```sql
 SELECT DISTINCT Classes.class FROM Classes
 LEFT JOIN Ships ON Classes.class = Ships.class
 RIGHT JOIN Outcomes on Outcomes.ship = Classes.class
 OR Outcomes.ship = Ships.name
 WHERE result = 'sunk' AND Classes.class IS NOT NULL
-
-Задание: 49 (Serge I: 2003-02-17)
+```
+## 49
 Найдите названия кораблей с орудиями калибра 16 дюймов (учесть корабли из таблицы Outcomes).
-
+```sql
 WITH classes_16 AS (
     SELECT class FROM Classes
     WHERE bore = 16
@@ -452,21 +452,21 @@ SELECT
 FROM
     Outcomes
     INNER JOIN classes_16 ON Outcomes.ship = classes_16.class
-
-Задание: 50 (Serge I: 2002-11-05)
+```
+## 50
 Найдите сражения, в которых участвовали корабли класса Kongo из таблицы Ships.
-
+```sql
 SELECT
     DISTINCT battle
 FROM
     Ships
     INNER JOIN Outcomes ON Ships.name = Outcomes.ship
     WHERE class = 'Kongo'
-
-Задание: 52 (qwrqwr: 2010-04-23)
+```
+## 52
 Определить названия всех кораблей из таблицы Ships, которые могут быть линейным японским кораблем,
 имеющим число главных орудий не менее девяти, калибр орудий менее 19 дюймов и водоизмещение не более 65 тыс.тонн
-
+```sql
 SELECT
     DISTINCT name
 FROM
@@ -478,20 +478,20 @@ FROM
     AND COALESCE(numGuns, 9) >= 9
     AND COALESCE(bore, 18) < 19
     AND COALESCE(displacement, 65000) <= 65000
-
-Задание: 53 (Serge I: 2002-11-05)
+```
+## 53
 Определите среднее число орудий для классов линейных кораблей.
 Получить результат с точностью до 2-х десятичных знаков.
-
+```sql
 SELECT
     cast(ROUND(AVG(numGuns*1.0), 2) AS numeric(6, 2))
 FROM
     Classes
-    WHERE type = 'bb'
-
-Задание: 54 (Serge I: 2003-02-14)
+    WHERE tpe = 'bb'
+```
+## 52
 С точностью до 2-х десятичных знаков определите среднее число орудий всех линейных кораблей (учесть корабли из таблицы Outcomes).
-
+```sql
 WITH bbtypes AS (
     SELECT class FROM Classes
     WHERE type = 'bb'
@@ -519,11 +519,11 @@ WITH bbtypes AS (
 )
 
 SELECT cast(AVG(numGuns*1.0) AS numeric(6, 2)) FROM dist_alltypes
-
-Задание: 55 (Serge I: 2003-02-16)
+```
+## 55
 Для каждого класса определите год, когда был спущен на воду первый корабль этого класса. 
 Если год спуска на воду головного корабля неизвестен, определите минимальный год спуска на воду кораблей этого класса. Вывести: класс, год.
-
+```sql
 WITH alltypes AS (
     SELECT 
         name, Classes.class, launched
@@ -543,10 +543,10 @@ WITH alltypes AS (
 
 SELECT class, MIN(launched) FROM alltypes
 GROUP BY class
-
-Задание: 56 (Serge I: 2003-02-16)
+```
+## 56
 Для каждого класса определите число кораблей этого класса, потопленных в сражениях. Вывести: класс и число потопленных кораблей.
-
+```sql
 WITH alltypes AS (
     SELECT 
         name, Classes.class, result
@@ -572,10 +572,10 @@ SELECT
 FROM
     dist_alltypes
     GROUP BY class
-
-Задание: 57 (Serge I: 2003-02-14)
+```
+## 57
 Для классов, имеющих потери в виде потопленных кораблей и не менее 3 кораблей в базе данных, вывести имя класса и число потопленных кораблей.
-
+```sql
 SELECT
     class AS cls,
     count(class) AS sunked
@@ -626,10 +626,10 @@ WHERE
     )
 GROUP BY
     class
-
-Задание: 63 (Serge I: 2003-04-08)
+```
+## 63
 Определить имена разных пассажиров, когда-либо летевших на одном и том же месте более одного раза.
-
+```sql
 SELECT
     name
 FROM
@@ -642,13 +642,13 @@ WHERE
             Pass_in_trip
         GROUP BY ID_psg, place
         HAVING count(*) > 1)
-
-Задание: 67 (Serge I: 2010-03-27)
+```
+## 67
 Найти количество маршрутов, которые обслуживаются наибольшим числом рейсов.
 Замечания.
 1) A - B и B - A считать РАЗНЫМИ маршрутами.
 2) Использовать только таблицу Trip
-
+```sql
 WITH selected AS (SELECT count(*) as counted FROM Trip
 GROUP BY town_from, town_to
 HAVING count(*) >= ALL (SELECT
@@ -658,10 +658,10 @@ FROM
 GROUP BY town_from, town_to))
 
 SELECT count(counted) FROM selected
-
-Задание: 71 (Serge I: 2008-02-23)
+```
+## 71
 Найти тех производителей ПК, все модели ПК которых имеются в таблице PC.
-
+```sql
 WITH count1 AS (SELECT 
     maker, count(*) as counter 
 FROM 
@@ -687,11 +687,11 @@ FROM
     count1
     INNER JOIN count3 ON count1.counter = count3.counter
     AND count1.maker = count3.maker
-
-Задание: 72 (Serge I: 2003-04-29)
+```
+## 72
 Среди тех, кто пользуется услугами только какой-нибудь одной компании, определить имена разных пассажиров, летавших чаще других.
 Вывести: имя пассажира и число полетов.
-
+```sql
 WITH table1 AS(
     SELECT
         id_psg,
@@ -717,11 +717,11 @@ WITH table1 AS(
 SELECT top (1) with ties name, mx FROM table1
 INNER JOIN Passenger P ON table1.id_psg = P.ID_psg
 ORDER BY mx DESC
-
-Задание: 73 (Serge I: 2009-04-17)
+```
+## 73
 Для каждой страны определить сражения, в которых не участвовали корабли данной страны.
 Вывод: страна, сражение
-
+```sql
 SELECT
     DISTINCT country, Battles.name
 FROM
@@ -743,11 +743,11 @@ WHERE
 GROUP BY
     c.country,
     o.battle
-
-Задание: 74 (dorin_larsen: 2007-03-23)
+```
+## 74
 Вывести все классы кораблей России (Russia). Если в базе данных нет классов кораблей России, вывести классы для всех имеющихся в БД стран.
 Вывод: страна, класс
-
+```sql
 SELECT
     DISTINCT country, class
 FROM 
@@ -758,12 +758,12 @@ WHERE
                         country
                         FROM 
                         Classes)
-
-Задание: 75 (Serge I: 2020-01-31)
+```
+## 75
 Для тех производителей, у которых есть продукты с известной ценой хотя бы в одной из таблиц Laptop, PC, Printer найти максимальные цены на каждый из типов продукции.
 Вывод: maker, максимальная цена на ноутбуки, максимальная цена на ПК, максимальная цена на принтеры.
 Для отсутствующих продуктов/цен использовать NULL.
-
+```sql
 WITH L_table AS (SELECT
     maker, max(L.price) as max_L
 FROM
@@ -793,11 +793,11 @@ FROM
     FULL OUTER JOIN PR_table ON PC_table.maker = PR_table.maker
 WHERE (max_L IS NOT NULL) OR (max_PC IS NOT NULL) OR (max_PR IS NOT NULL)
 ORDER BY 1
-
-Задание: 77 (Serge I: 2003-04-09)
+```
+## 77
 Определить дни, когда было выполнено максимальное число рейсов из
 Ростова ('Rostov'). Вывод: число рейсов, дата.
-
+```sql
 SELECT
     TOP(1) WITH TIES count(distinct Trip.trip_no), date
 FROM
@@ -807,19 +807,19 @@ WHERE
    town_from = 'Rostov'
 GROUP BY date
 ORDER BY count(distinct Trip.trip_no) DESC
-
-Задание: 78 (Serge I: 2005-01-19)
+```
+## 78
 Для каждого сражения определить первый и последний день месяца, в котором оно состоялось.
 Вывод: сражение, первый день месяца, последний день месяца.
 Замечание: даты представить без времени в формате "yyyy-mm-dd".
-
+```sql
 SELECT 
     name, DATEFROMPARTS(year(date), month(date), 1) as FirstD, EOMONTH(date) AS LastD
 FROM Battles
-
-Задание: 80 (Baser: 2011-11-11)
+```
+## 80
 Найти производителей любой компьютерной техники, у которых нет моделей ПК, не представленных в таблице PC.
-
+```sql
 WITH table1 AS (SELECT maker, model FROM Product
 WHERE type = 'PC'
 
@@ -830,10 +830,10 @@ INNER JOIN Product ON PC.model = Product.model)
 
 SELECT DISTINCT maker FROM Product
 WHERE maker NOT IN (SELECT DISTINCT maker FROM table1)
-
-Задание: 81 (Serge I: 2011-11-25)
+```
+## 81
 Из таблицы Outcome получить все записи за тот месяц (месяцы), с учетом года, в котором суммарное значение расхода (out) было максимальным.
-
+```sql
 SELECT
     *
 FROM
@@ -845,22 +845,22 @@ FROM
     Outcome
 GROUP BY DATEFROMPARTS(YEAR(date), MONTH(date), 1)
 ORDER BY SUM(out) DESC)
-
-Задание: 82 (Serge I: 2011-10-08)
+```
+## 82
 В наборе записей из таблицы PC, отсортированном по столбцу code (по возрастанию) найти среднее значение цены для каждой шестерки подряд идущих ПК.
 Вывод: значение code, которое является первым в наборе из шести строк, среднее значение цены в наборе.
-
+```sql
 SELECT
     top ((SELECT count(*) FROM PC) - 5) code,
     AVG(price) over (order by code
                      rows between current row and 5 following)
 FROM
     PC
-
-Задание: 83 (dorin_larsen: 2006-03-14)
+```
+## 83
 Определить названия всех кораблей из таблицы Ships, которые удовлетворяют, по крайней мере, комбинации любых четырёх критериев из следующего списка: 
 numGuns = 8, bore = 15, displacement = 32000, type = bb, launched = 1915, class=Kongo, country=USA
-
+```sql
 WITH fulltable AS (SELECT
     name, 
     CASE WHEN numGuns = 8 THEN 1 ELSE 0 END AS numGuns,
@@ -877,11 +877,11 @@ FROM
 
 SELECT name FROM fulltable
 WHERE (numGuns + bore + displacement + type + launched + class + country) >= 4
-
-Задание: 84 (Serge I: 2003-06-05)
+```
+## 84
 Для каждой компании подсчитать количество перевезенных пассажиров (если они были в этом месяце) по декадам апреля 2003. При этом учитывать только дату вылета.
 Вывод: название компании, количество пассажиров за каждую декаду
-
+```sql
 WITH fulltable AS (SELECT
     Company.name, 
     CASE WHEN DAY(date) <= 10 THEN 1 ELSE 0 END AS dates1_10,
@@ -895,11 +895,11 @@ WHERE YEAR(date) = 2003 AND MONTH(date) = 4)
 
 SELECT name, SUM(dates1_10), SUM(dates11_20), SUM(dates21_30) FROM fulltable
 GROUP BY name
-
-Задание: 85 (Serge I: 2012-03-16)
+```
+## 85
 Найти производителей, которые выпускают только принтеры или только PC.
 При этом искомые производители PC должны выпускать не менее 3 моделей.
-
+```sql
 SELECT
     maker
 FROM
@@ -915,11 +915,11 @@ HAVING
             AND count(model) >= 3
         )
     );
-
-Задание: 86 (Serge I: 2012-04-20)
+```
+## 86
 Для каждого производителя перечислить в алфавитном порядке с разделителем "/" все типы выпускаемой им продукции.
 Вывод: maker, список типов продукции
-
+```sql
 SELECT
     maker,
     CASE
@@ -931,11 +931,11 @@ SELECT
 FROM
     Product
 GROUP BY maker
-
-Задание: 88 (Serge I: 2003-04-29)
+```
+## 88
 Среди тех, кто пользуется услугами только одной компании, определить имена разных пассажиров, летавших чаще других.
 Вывести: имя пассажира, число полетов и название компании.
-
+```sql
 SELECT 
     (SELECT
          name
@@ -958,11 +958,11 @@ FROM
 GROUP BY Pass_in_trip.ID_psg
 HAVING count(distinct Trip.ID_comp) = 1
 ORDER BY count(*) DESC) t
-
-Задание: 89 (Serge I: 2012-05-04)
+```
+## 89
 Найти производителей, у которых больше всего моделей в таблице Product, а также тех, у которых меньше всего моделей.
 Вывод: maker, число моделей
-
+```sql
 WITH table1 AS (SELECT
     TOP 1 WITH TIES maker, COUNT(model) as counter
 FROM
@@ -982,10 +982,10 @@ ORDER BY 2),
                 SELECT * FROM table2)
 
 SELECT DISTINCT * FROM table3
-
-Задание: 90 (Serge I: 2012-05-04)
+```
+## 90
 Вывести все строки из таблицы Product, кроме трех строк с наименьшими номерами моделей и трех строк с наибольшими номерами моделей.
-
+```sql
 SELECT
     *
 FROM
@@ -1002,15 +1002,15 @@ AND model NOT IN (
     FROM 
         Product
     ORDER BY model DESC)
-
-Задание: 95 (qwrqwr: 2013-02-08)
+```
+## 95
 На основании информации из таблицы Pass_in_Trip, для каждой авиакомпании определить:
 1) количество выполненных перелетов;
 2) число использованных типов самолетов;
 3) количество перевезенных различных пассажиров;
 4) общее число перевезенных компанией пассажиров.
 Вывод: Название компании, 1), 2), 3), 4).
-
+```sql
 WITH table4 AS (SELECT 
     Trip.ID_comp, COUNT(Pass_in_trip.trip_no) as t4
 FROM
@@ -1046,11 +1046,11 @@ FROM
     ON table1.ID_comp = table2.ID_comp
     INNER JOIN table3 ON table2.ID_comp = table3.ID_comp
     INNER JOIN table4 ON table3.ID_comp = table4.ID_comp
-
-Задание: 102 (Serge I: 2003-04-29)
+```
+## 102
 Определить имена разных пассажиров, которые летали
 только между двумя городами (туда и/или обратно).
-
+```sql
 WITH table1 AS (SELECT
     DISTINCT id_psg, (CONCAT(GREATEST(town_from, town_to), ' ', LEAST(town_from, town_to))) as counter
 FROM 
@@ -1069,3 +1069,4 @@ SELECT
 FROM
     table2 
     INNER JOIN Passenger ON Passenger.ID_psg = table2.ID_psg
+```
