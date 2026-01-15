@@ -10,35 +10,35 @@ WHERE price < 500
 SELECT DISTINCT maker FROM Product
 WHERE type = 'Printer'
 ```
-Задание: 3 (Serge I: 2002-09-30)
+## 3
 Найдите номер модели, объем памяти и размеры экранов ПК-блокнотов, цена которых превышает 1000 дол.
-
+```sql
 SELECT model, ram, screen FROM Laptop
 WHERE price > 1000
-
-Задание: 4 (Serge I: 2002-09-21)
+```
+## 4
 Найдите все записи таблицы Printer для цветных принтеров.
-
+```sql
 SELECT * from Printer
 WHERE color = 'y'
-
-Задание: 5 (Serge I: 2002-09-30)
+```
+## 5
 Найдите номер модели, скорость и размер жесткого диска ПК, имеющих 12x или 24x CD и цену менее 600 дол.
-
+```sql
 SELECT model, speed, hd FROM PC
 WHERE price < 600 AND (cd = '12x' or cd = '24x')
-
-Задание: 6 (Serge I: 2002-10-28)
+```
+## 6
 Для каждого производителя, выпускающего ПК-блокноты c объёмом жесткого диска не менее 10 Гбайт, найти скорости таких ПК-блокнотов. Вывод: производитель, скорость.
-
+```sql
 SELECT distinct maker, speed FROM 
 Laptop INNER JOIN Product ON Laptop.model = Product.model
 WHERE hd >= 10
 ORDER BY maker, speed
-
-Задание: 7 (Serge I: 2002-11-02)
+```
+## 7
 Найдите номера моделей и цены всех имеющихся в продаже продуктов (любого типа) производителя B (латинская буква).
-
+```sql
 SELECT DISTINCT Product.model, price FROM
 Product INNER JOIN PC ON Product.model = PC.model
 WHERE maker = 'B'
@@ -54,55 +54,55 @@ UNION
 SELECT DISTINCT Product.model, price FROM
 Product INNER JOIN Printer ON Product.model = Printer.model
 WHERE maker = 'B'
-
-Задание: 8 (Serge I: 2003-02-03)
+```
+## 8
 Найдите производителя, выпускающего ПК, но не ПК-блокноты.
-
+```sql
 SELECT DISTINCT maker FROM Product
 WHERE type = 'PC' AND maker NOT IN (SELECT DISTINCT maker FROM Product
 WHERE type = 'Laptop')
-
-Задание: 9 (Serge I: 2002-11-02)
+```
+## 9
 Найдите производителей ПК с процессором не менее 450 Мгц. Вывести: Maker
-
+```sql
 SELECT DISTINCT maker as Maker FROM Product 
 INNER JOIN PC ON Product.model = PC.model
 WHERE speed >= 450
-
-Задание: 10 (Serge I: 2002-09-23)
+```
+## 10
 Найдите модели принтеров, имеющих самую высокую цену. Вывести: model, price
-
+```sql
 SELECT model, price FROM Printer
 WHERE price = (SELECT max(price) FROM Printer)
-
-Задание: 11 (Serge I: 2002-11-02)
+```
+## 11
 Найдите среднюю скорость ПК.
-
+```sql
 SELECT AVG(speed) AS speed FROM PC
-
-Задание: 12 (Serge I: 2002-11-02)
+```
+## 12
 Найдите среднюю скорость ПК-блокнотов, цена которых превышает 1000 дол.
-
+```sql
 SELECT AVG(speed) FROM Laptop
 WHERE price > 1000
-
-Задание: 13 (Serge I: 2002-11-02)
+```
+## 13
 Найдите среднюю скорость ПК, выпущенных производителем A.
-
+```sql
 SELECT AVG(speed) FROM PC INNER JOIN Product
 ON PC.model = Product.model
 WHERE maker = 'A'
-
-Задание: 14 (Serge I: 2002-11-05)
+```
+## 14
 Найдите класс, имя и страну для кораблей из таблицы Ships, имеющих не менее 10 орудий.
-
+```sql
 SELECT Classes.class, name, country FROM Ships
 INNER JOIN Classes ON Ships.class = Classes.class
 WHERE numGuns >= 10
-
-Задание: 15 (Serge I: 2003-02-03)
+```
+## 15
 Найдите размеры жестких дисков, совпадающих у двух и более PC. Вывести: HD
-
+```sql
 WITH hd_count AS (
     SELECT hd, count(*) as counter_hd FROM PC
     GROUP BY hd
@@ -110,11 +110,11 @@ WITH hd_count AS (
 
 SELECT hd FROM hd_count
 WHERE counter_hd >= 2
-
-Задание: 16 (Serge I: 2003-02-03)
+```
+## 16
 Найдите пары моделей PC, имеющих одинаковые скорость и RAM. В результате каждая пара указывается только один раз, 
 т.е. (i,j), но не (j,i), Порядок вывода: модель с большим номером, модель с меньшим номером, скорость и RAM.
-
+```sql
 WITH firsttable AS (
     SELECT model as model1, speed, ram FROM PC
 ),
@@ -127,15 +127,15 @@ firsttable INNER JOIN secondtable
 ON firsttable.speed = secondtable.speed 
 AND firsttable.ram = secondtable.ram
 WHERE model1 > model2
-
-Задание: 17 (Serge I: 2003-02-03)
+```
+## 17
 Найдите модели ПК-блокнотов, скорость которых меньше скорости каждого из ПК.
 Вывести: type, model, speed
-
+```sql
 SELECT DISTINCT type, Laptop.model, speed FROM 
 Product INNER JOIN Laptop ON Product.model = Laptop.model
 WHERE speed < ALL (SELECT speed FROM PC)
-
+```
 Задание: 18 (Serge I: 2003-02-03)
 Найдите производителей самых дешевых цветных принтеров. Вывести: maker, price
 
