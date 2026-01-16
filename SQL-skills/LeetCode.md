@@ -311,6 +311,9 @@ FROM Transactions
 GROUP BY DATE_FORMAT(trans_date, '%Y-%m'), country
 ```
 ## 21 (1174. Immediate Food Delivery II)
+If the customer's preferred delivery date is the same as the order date, then the order is called immediate; otherwise, it is called scheduled.
+The first order of a customer is the order with the earliest order date that the customer made. It is guaranteed that a customer has precisely one first order.
+Write a solution to find the percentage of immediate orders in the first orders of all customers, rounded to 2 decimal places.
 ```sql
 SELECT
     ROUND(AVG(100*(order_date = customer_pref_delivery_date)), 2) as immediate_percentage
@@ -327,6 +330,7 @@ WHERE
     )
 ```
 ## 22 (550. Game Play Analysis IV)
+Write a solution to report the fraction of players that logged in again on the day after the day they first logged in, rounded to 2 decimal places. In other words, you need to determine the number of players who logged in on the day immediately following their initial login, and divide it by the number of total players.
 ```sql
 WITH CTE AS (SELECT
     player_id
@@ -353,6 +357,8 @@ SELECT
 FROM CTE2
 ```
 ## 23 (2356. Number of Unique Subjects Taught by Each Teacher)
+Write a solution to calculate the number of unique subjects each teacher teaches in the university.
+Return the result table in any order.
 ```sql
 SELECT
     teacher_id,
@@ -363,6 +369,10 @@ GROUP BY
     teacher_id
 ```
 ## 24 (1141. User Activity for the Past 30 Days I)
+Write a solution to find the daily active user count for a period of 30 days ending 2019-07-27 inclusively. A user was active on someday if they made at least one activity on that day.
+Return the result table in any order.
+The result format is in the following example.
+Note: Any activity from ('open_session', 'end_session', 'scroll_down', 'send_message') will be considered valid activity for a user to be considered active on a day.
 ```sql
 SELECT
     activity_date AS day,
@@ -374,6 +384,11 @@ GROUP BY
     activity_date
 ```
 ## 25 (1070. Product Sales Analysis III)
+Write a solution to find all sales that occurred in the first year each product was sold.
+For each product_id, identify the earliest year it appears in the Sales table.
+Return all sales entries for that product in that year.
+Return a table with the following columns: product_id, first_year, quantity, and price.
+Return the result in any order.
 ```sql
 SELECT
     product_id,
@@ -391,6 +406,8 @@ WHERE (product_id, year) IN
     GROUP BY product_id)
 ```
 ## 26 (596. Classes With at Least 5 Students)
+Write a solution to find all the classes that have at least five students.
+Return the result table in any order.
 ```sql
 SELECT
     DISTINCT class
@@ -406,6 +423,8 @@ WHERE
     HAVING COUNT(DISTINCT student) >= 5)
 ```
 ## 27 (1729. Find Followers Count)
+Write a solution that will, for each user, return the number of followers.
+Return the result table ordered by user_id in ascending order.
 ```sql
 SELECT
     user_id,
@@ -417,6 +436,8 @@ GROUP BY
 ORDER BY user_id
 ```
 ## 28 (619. Biggest Single Number)
+A single number is a number that appeared only once in the MyNumbers table.
+Find the largest single number. If there is no single number, report null.
 ```sql
 SELECT
     MAX(num) AS num
@@ -434,6 +455,8 @@ WHERE
         COUNT(*) = 1)
 ```
 ## 29 (1045. Customers Who Bought All Products)
+Write a solution to report the customer ids from the Customer table that bought all the products in the Product table.
+Return the result table in any order.
 ```sql
 SELECT
     customer_id
@@ -443,6 +466,9 @@ GROUP BY customer_id
 HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(product_key) FROM Product)
 ```
 ## 30 (1731. The Number of Employees Which Report to Each Employee)
+For this problem, we will consider a manager an employee who has at least 1 other employee reporting to them.
+Write a solution to report the ids and the names of all managers, the number of employees who report directly to them, and the average age of the reports rounded to the nearest integer.
+Return the result table ordered by employee_id.
 ```sql
 WITH CTE AS (SELECT
     reports_to AS employee_id,
@@ -461,6 +487,9 @@ FROM CTE INNER JOIN Employees USING (employee_id)
 ORDER BY employee_id
 ```
 ## 31 (1789. Primary Department for Each Employee)
+Employees can belong to multiple departments. When the employee joins other departments, they need to decide which department is their primary department. Note that when an employee belongs to only one department, their primary column is 'N'.
+Write a solution to report all the employees with their primary department. For employees who belong to one department, report their only department.
+Return the result table in any order.
 ```sql
 SELECT
     employee_id,
@@ -481,6 +510,8 @@ GROUP BY employee_id
 HAVING COUNT(*) = 1
 ```
 ## 32 (610. Triangle Judgement)
+Report for every three line segments whether they can form a triangle.
+Return the result table in any order.
 ```sql
 SELECT
     *,
@@ -489,6 +520,8 @@ FROM
     Triangle
 ```
 ## 33 (180. Consecutive Numbers)
+Find all numbers that appear at least three times consecutively.
+Return the result table in any order.
 ```sql
 WITH CTE AS (SELECT
     id,
@@ -511,6 +544,9 @@ FROM
 WHERE num = num_cte AND num_cte = num_cte_cte
 ```
 ## 34 (1164. Product Price at a Given Date)
+Initially, all products have price 10.
+Write a solution to find the prices of all products on the date 2019-08-16.
+Return the result table in any order.
 ```sql
 WITH CTE AS (
     SELECT DISTINCT
@@ -539,6 +575,9 @@ FROM
     ANSWER RIGHT JOIN CTE USING (product_id)
 ```
 ## 35 (1204. Last Person to Fit in the Bus)
+There is a queue of people waiting to board a bus. However, the bus has a weight limit of 1000 kilograms, so there may be some people who cannot board.
+Write a solution to find the person_name of the last person that can fit on the bus without exceeding the weight limit. The test cases are generated such that the first person does not exceed the weight limit.
+Note that only one person can board the bus at any given turn.
 ```sql
 WITH CTE AS (SELECT
     turn,
@@ -558,6 +597,12 @@ ORDER BY (cum_weight) DESC
 LIMIT 1
 ```
 ## 36 (1907. Count Salary Categories)
+Write a solution to calculate the number of bank accounts for each salary category. The salary categories are:
+"Low Salary": All the salaries strictly less than $20000.
+"Average Salary": All the salaries in the inclusive range [$20000, $50000].
+"High Salary": All the salaries strictly greater than $50000.
+The result table must contain all three categories. If there are no accounts in a category, return 0.
+Return the result table in any order.
 ```sql
 SELECT
     'Low Salary' AS category,
@@ -585,6 +630,8 @@ FROM
 WHERE income > 50000
 ```
 ## 37 (1978. Employees Whose Manager Left the Company)
+Find the IDs of the employees whose salary is strictly less than $30000 and whose manager left the company. When a manager leaves the company, their information is deleted from the Employees table, but the reports still have their manager_id set to the manager that left.
+Return the result table ordered by employee_id.
 ```sql
 SELECT
     employee_id
@@ -596,6 +643,8 @@ ORDER BY
     employee_id
 ```
 ## 38 (626. Exchange Seats)
+Write a solution to swap the seat id of every two consecutive students. If the number of students is odd, the id of the last student is not swapped.
+Return the result table ordered by id in ascending order.
 ```sql
 WITH CTE AS (SELECT
     id - 1 AS id,
@@ -623,6 +672,9 @@ FROM
 ORDER BY id
 ```
 ## 39 (1341. Movie Rating)
+Write a solution to:
+Find the name of the user who has rated the greatest number of movies. In case of a tie, return the lexicographically smaller user name.
+Find the movie name with the highest average rating in February 2020. In case of a tie, return the lexicographically smaller movie name.
 ```sql
 (SELECT
     name AS results
@@ -644,6 +696,9 @@ ORDER BY AVG(rating) DESC, title
 LIMIT 1)
 ```
 ## 40 (1321. Restaurant Growth)
+You are the restaurant owner and you want to analyze a possible expansion (there will be at least one customer every day).
+Compute the moving average of how much the customer paid in a seven days window (i.e., current day + 6 days before). average_amount should be rounded to two decimal places.
+Return the result table ordered by visited_on in ascending order.
 ```sql
 WITH CTE AS (SELECT
     visited_on,
@@ -662,6 +717,8 @@ WINDOW w AS (ORDER BY visited_on
 LIMIT 100 OFFSET 6
 ```
 ## 41 (602. Friend Requests II: Who Has the Most Friends)
+Write a solution to find the people who have the most friends and the most friends number.
+The test cases are generated so that only one person has the most friends.
 ```sql
 WITH Clients AS (SELECT DISTINCT
     requester_id AS id,
@@ -702,6 +759,10 @@ ORDER BY 2 DESC
 LIMIT 1
 ```
 ## 42 (585. Investments in 2016)
+Write a solution to report the sum of all total investment values in 2016 tiv_2016, for all policyholders who:
+have the same tiv_2015 value as one or more other policyholders, and
+are not located in the same city as any other policyholder (i.e., the (lat, lon) attribute pairs must be unique).
+Round tiv_2016 to two decimal places.
 ```sql
 SELECT
     ROUND(SUM(tiv_2016), 2) AS tiv_2016
@@ -724,6 +785,9 @@ AND (lat, lon) IN
     HAVING COUNT(*) = 1)
 ```
 ## 43 (185. Department Top Three Salaries)
+A company's executives are interested in seeing who earns the most money in each of the company's departments. A high earner in a department is an employee who has a salary in the top three unique salaries for that department.
+Write a solution to find the employees who are high earners in each of the departments.
+Return the result table in any order.
 ```sql
 WITH CTE AS (SELECT
     Department.name AS Department,
@@ -744,6 +808,8 @@ FROM
 WHERE rating <= 3
 ```
 ## 44 (1667. Fix Names in a Table)
+Write a solution to fix the names so that only the first character is uppercase and the rest are lowercase.
+Return the result table ordered by user_id.
 ```sql
 SELECT
     user_id,
@@ -753,6 +819,8 @@ FROM
 ORDER BY user_id
 ```
 ## 45 (1527. Patients With a Condition)
+Write a solution to find the patient_id, patient_name, and conditions of the patients who have Type I Diabetes. Type I Diabetes always starts with DIAB1 prefix.
+Return the result table in any order.
 ```sql
 SELECT
     patient_id,
@@ -763,6 +831,9 @@ FROM
 WHERE conditions LIKE 'DIAB1%' OR conditions LIKE '% DIAB1%'
 ```
 ## 46 (196. Delete Duplicate Emails)
+Write a solution to delete all duplicate emails, keeping only one unique email with the smallest id.
+For SQL users, please note that you are supposed to write a DELETE statement and not a SELECT one.
+After running your script, the answer shown is the Person table. The driver will first compile and run your piece of code and then show the Person table. The final order of the Person table does not matter.
 ```sql
 DELETE
 FROM
@@ -778,6 +849,7 @@ WHERE id NOT IN
     GROUP BY email) as a)
 ```
 ## 47 (176. Second Highest Salary)
+Write a solution to find the second highest distinct salary from the Employee table. If there is no second highest salary, return null.
 ```sql
 SELECT
     max(salary) AS SecondHighestSalary
@@ -786,6 +858,9 @@ FROM
 WHERE salary < (SELECT max(salary) FROM Employee)
 ```
 ## 48 (1484. Group Sold Products By The Date)
+Write a solution to find for each date the number of different products sold and their names.
+The sold products names for each date should be sorted lexicographically.
+Return the result table ordered by sell_date.
 ```sql
 WITH CTE AS (SELECT * FROM Activities ORDER BY sell_date, product)
 
@@ -798,6 +873,8 @@ FROM
 GROUP BY sell_date
 ```
 ## 49 (1327. List the Products Ordered in a Period)
+Write a solution to get the names of products that have at least 100 units ordered in February 2020 and their amount.
+Return the result table in any order.
 ```sql
 SELECT
     product_name,
@@ -809,6 +886,11 @@ GROUP BY product_id
 HAVING SUM(unit) >= 100
 ```
 ## 50 (1517. Find Users With Valid E-Mails)
+Write a solution to find the users who have valid emails.
+A valid e-mail has a prefix name and a domain where:
+The prefix name is a string that may contain letters (upper or lower case), digits, underscore '_', period '.', and/or dash '-'. The prefix name must start with a letter.
+The domain is '@leetcode.com'.
+Return the result table in any order.
 ```sql
 SELECT * fro Users
 WHERE regexp_like(mail, '^[A-Za-z]+[A-Za-z0-9_.-]*@leetcode[.]com$','c')
