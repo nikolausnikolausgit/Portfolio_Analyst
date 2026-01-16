@@ -21,6 +21,11 @@ FROM
 WHERE referee_id != 2 OR referee_id IS NULL
 ```
 ## 3 (595. Big Countries)
+A country is big if:
+it has an area of at least three million (i.e., 3000000 km2), or
+it has a population of at least twenty-five million (i.e., 25000000).
+Write a solution to find the name, population, and area of the big countries.
+Return the result table in any order.
 ```sql
 SELECT
     name,
@@ -31,6 +36,8 @@ FROM
 WHERE `area` >= 3000000 OR population >= 25000000
 ```
 ## 4 (1148. Article Views I)
+Write a solution to find all the authors that viewed at least one of their own articles.
+Return the result table sorted by id in ascending order.
 ```sql
 SELECT DISTINCT
     author_id AS id
@@ -40,6 +47,8 @@ WHERE author_id = viewer_id
 ORDER BY author_id
 ```
 ## 5 (1683. Invalid Tweets)
+Write a solution to find the IDs of the invalid tweets. The tweet is invalid if the number of characters used in the content of the tweet is strictly greater than 15.
+Return the result table in any order.
 ```sql
 SELECT
     tweet_id
@@ -48,6 +57,8 @@ FROM
 WHERE LENGTH(content) > 15
 ```
 ## 6 (1378. Replace Employee ID With The Unique Identifier)
+Write a solution to show the unique ID of each user, If a user does not have a unique ID replace just show null.
+Return the result table in any order.
 ```sql
 SELECT
     unique_id,
@@ -55,6 +66,8 @@ SELECT
 FROM Employees LEFT JOIN EmployeeUNI USING(id)
 ```
 ## 7 (1068. Product Sales Analysis I)
+Write a solution to report the product_name, year, and price for each sale_id in the Sales table.
+Return the resulting table in any order.
 ```sql
 SELECT
     product_name,
@@ -63,6 +76,8 @@ SELECT
 FROM Sales INNER JOIN Product USING(product_id)
 ```
 ## 8 (1581. Customer Who Visited but Did Not Make Any Transactions)
+Write a solution to find the IDs of the users who visited without making any transactions and the number of times they made these types of visits.
+Return the result table sorted in any order.
 ```sql
 SELECT
     customer_id,
@@ -72,6 +87,8 @@ WHERE transaction_id IS NULL
 GROUP BY customer_id
 ```
 ## 9 (197. Rising Temperature)
+Write a solution to find all dates' id with higher temperatures compared to its previous dates (yesterday).
+Return the result table in any order.
 ```sql
 SELECT 
     w2.id
@@ -82,6 +99,10 @@ WHERE
 and ADDDATE(W1.RecordDate, INTERVAL 1 DAY) = W2.RecordDate
 ```
 ## 10 (1661. Average Time of Process per Machine)
+There is a factory website that has several machines each running the same number of processes. Write a solution to find the average time each machine takes to complete a process.
+The time to complete a process is the 'end' timestamp minus the 'start' timestamp. The average time is calculated by the total time to complete every process on the machine divided by the number of processes that were run.
+The resulting table should have the machine_id along with the average time as processing_time, which should be rounded to 3 decimal places.
+Return the result table in any order.
 ```sql
 WITH CTE AS (SELECT
     machine_id,
@@ -99,6 +120,10 @@ FROM CTE
 GROUP BY machine_id
 ```
 ## 11 (577. Employee Bonus)
+Write a solution to report the name and bonus amount of each employee who satisfies either of the following:
+The employee has a bonus less than 1000.
+The employee did not get any bonus.
+Return the result table in any order.
 ```sql
 SELECT
     name,
@@ -108,6 +133,8 @@ FROM
 WHERE bonus < 1000 OR bonus IS NULL
 ```
 ## 12 (1280. Students and Examinations)
+Write a solution to find the number of times each student attended each exam.
+Return the result table ordered by student_id and subject_name.
 ```sql
 WITH CTE_1 AS (SELECT
     student_id,
@@ -146,6 +173,8 @@ FROM CTE_3
 ORDER BY 1, 3
 ```
 ## 13 (570. Managers with at Least 5 Direct Reports)
+Write a solution to find managers with at least five direct reports.
+Return the result table in any order.
 ```sql
 WITH CTE AS (SELECT
     managerId AS id
@@ -160,6 +189,9 @@ FROM
     CTE INNER JOIN Employee USING(id)
 ```
 ## 14 (1934. Confirmation Rate)
+The confirmation rate of a user is the number of 'confirmed' messages divided by the total number of requested confirmation messages. The confirmation rate of a user that did not request any confirmation messages is 0. Round the confirmation rate to two decimal places.
+Write a solution to find the confirmation rate of each user.
+Return the result table in any order.
 ```sql
 WITH CTE_confirmed AS (SELECT
     user_id,
@@ -199,6 +231,8 @@ FROM
     all_actions INNER JOIN all_confirmed USING (user_id)
 ```
 ## 15 (620. Not Boring Movies)
+Write a solution to report the movies with an odd-numbered ID and a description that is not "boring".
+Return the result table ordered by rating in descending order.
 ```sql
 SELECT
     id,
@@ -210,6 +244,8 @@ WHERE description != 'boring' AND id % 2 != 0
 ORDER BY rating DESC
 ```
 ## 16 (1251. Average Selling Price)
+Write a solution to find the average selling price for each product. average_price should be rounded to 2 decimal places. If a product does not have any sold units, its average selling price is assumed to be 0.
+Return the result table in any order.
 ```sql
 SELECT
     Prices.product_id,
@@ -223,6 +259,8 @@ GROUP BY product_id
 ORDER BY Prices.product_id
 ```
 ## 17 (1075. Project Employees I)
+Write an SQL query that reports the average experience years of all the employees for each project, rounded to 2 digits.
+Return the result table in any order.
 ```sql
 SELECT
     project_id,
@@ -232,6 +270,8 @@ FROM
 GROUP BY project_id
 ```
 ## 18 (1633. Percentage of Users Attended a Contest)
+Write a solution to find the percentage of the users registered in each contest rounded to two decimals.
+Return the result table ordered by percentage in descending order. In case of a tie, order it by contest_id in ascending order.
 ```sql
 SELECT
     contest_id,
@@ -241,6 +281,13 @@ GROUP BY contest_id
 ORDER BY 2 DESC, contest_id
 ```
 ## 19 (1211. Queries Quality and Percentage)
+We define query quality as:
+The average of the ratio between query rating and its position.
+We also define poor query percentage as:
+The percentage of all queries with rating less than 3.
+Write a solution to find each query_name, the quality and poor_query_percentage.
+Both quality and poor_query_percentage should be rounded to 2 decimal places.
+Return the result table in any order.
 ```sql
 SELECT
     query_name,
@@ -250,6 +297,8 @@ FROM Queries
 GROUP BY query_name
 ```
 ## 20 (1193. Monthly Transactions I)
+Write an SQL query to find for each month and country, the number of transactions and their total amount, the number of approved transactions and their total amount.
+Return the result table in any order.
 ```sql
 SELECT
     DATE_FORMAT(trans_date, '%Y-%m') AS month,
